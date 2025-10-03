@@ -1,0 +1,17 @@
+---
+- name: install nagios for ubunyu
+  tags: nagios, install, ubuntu
+  apt:
+    name:
+      - nagios4
+    state: present
+    update_cache: yes
+  when: ansible_distribution == "Ubuntu"
+
+- name: start nagios for ubuntu    
+  tags: nagios, start, ubuntu
+  service: 
+    name: nagios
+    state: started
+    enabled: true
+  when: ansible_distribution == "Ubuntu"

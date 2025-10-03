@@ -1,0 +1,27 @@
+---
+- name: enable epel repository
+  yum:
+    name: epel-release
+  state: present
+  when: ansible_distribution == "CentOS"
+
+- name: install nagios and necessary plugins
+  yum:
+    name:
+      - nagios
+      - nagios-plugins
+      - nagios-plugins-disk
+      - nagios-plugins-http
+      - nagios-plugins-load
+      - nagios-plugins-ping
+      - nagios-plugins-procs
+      - nagios-plugins-users
+    state: latest
+  when: ansible_distribution == "CentOS"
+
+- name: start nagios
+  service:
+    name: nagios
+    state: started
+    enabled: true
+  when: ansible_distribution == "CentOS"

@@ -1,0 +1,24 @@
+---
+- hosts: all
+  become: true
+  pre_tasks:
+
+    - name: install updates for centos servers
+      tags: always
+      dnf:
+        update_cache: yes
+      when: ansible_distribution == "CentOS"
+
+    - name: install updates for ubuntu db_servers
+      tags: always
+      apt:
+        update_cache: yes
+      when: ansible_distribution == "Ubuntu"
+
+- hosts: ubuntu
+  roles:
+    - ubuntu
+
+- hosts: centos
+  roles:
+    - centos
