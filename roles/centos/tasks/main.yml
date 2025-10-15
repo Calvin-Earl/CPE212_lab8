@@ -2,7 +2,7 @@
 - name: enable epel repository
   yum:
     name: epel-release
-  state: present
+    state: present
   when: ansible_distribution == "CentOS"
 
 - name: install nagios and necessary plugins
@@ -25,3 +25,22 @@
     state: started
     enabled: true
   when: ansible_distribution == "CentOS"
+
+- name: create nagios group
+  tags: group, nagios, centos
+  group:
+    name: nagios
+    state: present
+
+- name: add current user to the nagios group
+  tags: user, nagios, centos
+  user:
+    name: vbearl
+    groups: nagios
+    append: yes
+
+- name: account creation for nagios homepage
+  tags: create, nagios, centos
+  command: htpasswd -bc /usr/local/nagios/etc/htpasswd.users bearl 123123
+  args:
+    creates: /usr/local/nagios/etc/htpasswd.users

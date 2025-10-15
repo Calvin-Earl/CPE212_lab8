@@ -16,9 +16,11 @@
       when: ansible_distribution == "Ubuntu"
 
 - hosts: ubuntu
+  become: true
   roles:
     - ubuntu
 
 - hosts: centos
+  become: true
   roles:
     - centos
